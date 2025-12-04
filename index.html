@@ -3,623 +3,77 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chords & Lyrics</title>
+    <title>Table of Contents</title>
     <style>
       body {
-        font-family: "Courier New", monospace;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         max-width: 800px;
-        margin: 40px auto;
+        margin: 50px auto;
         padding: 20px;
-        background-color: #f5f5dc;
-        color: #333;
+        background: #f5f5f5;
       }
-
-      .song-container {
-        background-color: white;
-        padding: 30px;
+      .container {
+        background: white;
+        padding: 40px;
         border-radius: 8px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       }
-
-      /* Print styles for 8.5x11 paper */
-      @media print {
-        body {
-          margin: 0;
-          padding: 0;
-          background-color: white;
-        }
-
-        .song-container {
-          width: 8.5in;
-          margin: 0;
-          padding: 0;
-          box-shadow: none;
-          border-radius: 0;
-        }
-
-        @page {
-          size: 8.5in 11in;
-          margin: 1in 0.75in;
-        }
-
-        .section {
-          page-break-inside: avoid;
-        }
-
-        h1,
-        .artist {
-          page-break-after: avoid;
-        }
-      }
-
       h1 {
-        text-align: center;
-        color: #2c5f2d;
-        margin-bottom: 10px;
-      }
-
-      .artist {
-        text-align: center;
-        color: #666;
-        font-style: italic;
+        color: #333;
+        border-bottom: 3px solid #007bff;
+        padding-bottom: 10px;
         margin-bottom: 30px;
       }
-
-      .section {
-        margin-bottom: 25px;
+      .file-list {
+        list-style: none;
+        padding: 0;
       }
-
-      .section-title {
-        font-weight: bold;
-        color: #2c5f2d;
-        margin-bottom: 10px;
-        text-transform: uppercase;
-        font-size: 0.9em;
+      .file-list li {
+        margin: 15px 0;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 5px;
+        transition: all 0.2s;
       }
-
-      .line {
-        display: flex;
-        margin-bottom: 5px;
-        position: relative;
+      .file-list li:hover {
+        background: #e9ecef;
+        transform: translateX(5px);
       }
-
-      .chord-lyric {
-        display: flex;
-        flex-direction: column;
+      .file-list a {
+        color: #007bff;
+        text-decoration: none;
+        font-size: 16px;
+        display: block;
       }
-
-      .space {
-        margin-left: 10px;
+      .file-list a:hover {
+        color: #0056b3;
+        text-decoration: underline;
       }
-
-      .pad-space {
-        padding-left: 10px;
+      .instructions {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 15px;
+        margin-bottom: 30px;
+        border-radius: 4px;
       }
-
-      .chords {
-        color: #d9534f;
-        font-weight: bold;
-        font-size: 0.95em;
-        letter-spacing: 0.5px;
-        line-height: 1.5;
-        min-height: 1.5em;
-      }
-
-      .lyrics {
-        color: #333;
-        line-height: 1.5;
-        font-size: 1em;
-      }
-
-      .chord {
-        display: inline-block;
-        min-width: 20px;
-      }
-
-      /* Optional: Add some spacing for better readability */
-      .spacer {
-        height: 15px;
-      }
-
-      table {
-        margin-bottom: 50px;
-        font-size: 0.9em;
-        color: #666;
-      }
-
-      td {
-        min-width: 75px;
-      }
-
-      td button {
-        color: #333;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-        cursor: pointer;
-        font-size: 0.85em;
-        height: 20px;
-        width: 20px;
-      }
-
-      .controls button:hover {
-        background-color: #f0f0f0;
-      }
-
-      @media print {
-        td button {
-          display: none;
-        }
-
-        h1 {
-          margin-top: 0;
-        }
-
-        .section {
-          page-break-inside: avoid;
-        }
-
-        h1,
-        .artist {
-          page-break-after: avoid;
-        }
+      .instructions p {
+        margin: 5px 0;
+        color: #856404;
       }
     </style>
   </head>
   <body>
-    <div class="song-container">
-      <h1 data-key="C">Wildflower Dreams</h1>
-      <div class="artist">Original Composition</div>
+    <div class="container">
+      <h1>📚 Table of Contents</h1>
 
-      <table>
-        <tr>
-          <td>Original Key:</td>
-          <td id="originalKey" class="pad-space"><span id="originalKeyDisplay">D</span> (<span id="originalKeyDistance">-2</span>)</td>
-        </tr>
-        <tr>
-          <td>Key:</td>
-          <td id="currentKey" class="pad-space">C (<span id="currentKeyDistance">0</span>)</td>
-          <td>
-            <button onclick="transposeDown()">-</button>
-            <button onclick="transposeUp()">+</button>
-          </td>
-        </tr>
-        <tr>
-          <td>Bpm:</td>
-          <td class="pad-space">120</td>
-        </tr>
-        <tr>
-          <td>Time Sign:</td>
-          <td class="pad-space">4/4</td>
-        </tr>
-      </table>
-
-      <div class="section">
-        <div class="section-title">Verse 1</div>
-
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords">C</div>
-            <div class="lyrics">Running</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">Am</div>
-            <div class="lyrics">through the</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">F</div>
-            <div class="lyrics">meadow</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">G</div>
-            <div class="lyrics">green</div>
-          </div>
-        </div>
-
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords">C</div>
-            <div class="lyrics">Chasing</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">Am</div>
-            <div class="lyrics">colors</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">F</div>
-            <div class="lyrics">in</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">G</div>
-            <div class="lyrics">between</div>
-          </div>
-        </div>
-
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords">Dm</div>
-            <div class="lyrics">Wild</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">G</div>
-            <div class="lyrics">flowers</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">C</div>
-            <div class="lyrics">dancing</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">Am</div>
-            <div class="lyrics">free</div>
-          </div>
-        </div>
-
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords">F</div>
-            <div class="lyrics">Reminding</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">G</div>
-            <div class="lyrics">me</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">C</div>
-            <div class="lyrics">to be</div>
-          </div>
-        </div>
+      <div class="instructions">
+        <p><strong>Instructions:</strong> Edit the list below to add your HTML files.</p>
+        <p>Replace the example entries with your actual filenames.</p>
       </div>
 
-      <div class="section">
-        <div class="section-title">Chorus</div>
-
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords">A</div>
-            <div class="lyrics">Let your</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">G</div>
-            <div class="lyrics">heart</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">Em</div>
-            <div class="lyrics">be</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">Am</div>
-            <div class="lyrics">wild</div>
-          </div>
-        </div>
-
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords">F</div>
-            <div class="lyrics">Like a</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">G</div>
-            <div class="lyrics">flower</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">C</div>
-            <div class="lyrics">child</div>
-          </div>
-        </div>
-
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords">Dm</div>
-            <div class="lyrics">Growing</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">G</div>
-            <div class="lyrics">where the</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">C</div>
-            <div class="lyrics">wind</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">Am</div>
-            <div class="lyrics">blows</div>
-          </div>
-        </div>
-
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords">F</div>
-            <div class="lyrics">Following</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">G</div>
-            <div class="lyrics">where</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">C</div>
-            <div class="lyrics">love goes</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-title">Verse 2</div>
-
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords">C</div>
-            <div class="lyrics">Sunset</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">Am</div>
-            <div class="lyrics">paints the</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">F</div>
-            <div class="lyrics">sky</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">G</div>
-            <div class="lyrics">gold</div>
-          </div>
-        </div>
-
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords">C</div>
-            <div class="lyrics">Stories</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">Am</div>
-            <div class="lyrics">waiting</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">F</div>
-            <div class="lyrics">to</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">G</div>
-            <div class="lyrics">unfold</div>
-          </div>
-        </div>
-
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords">Dm</div>
-            <div class="lyrics">Every</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">G</div>
-            <div class="lyrics">moment</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">C</div>
-            <div class="lyrics">holds</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">Am</div>
-            <div class="lyrics">a key</div>
-          </div>
-        </div>
-
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords">F</div>
-            <div class="lyrics">To the</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">G</div>
-            <div class="lyrics">person</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">C</div>
-            <div class="lyrics">you'll be</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-title">Bridge</div>
-
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords">Am</div>
-            <div class="lyrics">Don't be</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">F</div>
-            <div class="lyrics">afraid</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">C</div>
-            <div class="lyrics">to</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">G</div>
-            <div class="lyrics">bloom</div>
-          </div>
-        </div>
-
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords">Am</div>
-            <div class="lyrics">Even in</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">F</div>
-            <div class="lyrics">the</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">C</div>
-            <div class="lyrics">darkest</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">G</div>
-            <div class="lyrics">room</div>
-          </div>
-        </div>
-
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords">Dm</div>
-            <div class="lyrics">Your</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">G</div>
-            <div class="lyrics">light will</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">Em</div>
-            <div class="lyrics">find</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">Am</div>
-            <div class="lyrics">a way</div>
-          </div>
-        </div>
-
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords">F</div>
-            <div class="lyrics">To turn the</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">G</div>
-            <div class="lyrics">night</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">C</div>
-            <div class="lyrics">to day</div>
-          </div>
-        </div>
-      </div>
+      <ul class="file-list">
+        <li><a href="template.html">Template</a></li>
+      </ul>
     </div>
-
-    <script>
-      const chordMap = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
-      const minorChordMap = ["Cm", "C#m", "Dm", "D#m", "Em", "Fm", "F#m", "Gm", "G#m", "Am", "A#m", "Bm"];
-
-      let currentTranspose = 0;
-      const originalKey = "C";
-      const originalOriginalKey = document.getElementById("originalKeyDisplay").textContent; // The actual original key before any transposition
-
-      // Calculate the initial distance from the original-original key
-      function getKeyIndex(key) {
-        const normalizedKey = key.replace("Db", "C#").replace("Eb", "D#").replace("Gb", "F#").replace("Ab", "G#").replace("Bb", "A#");
-        return chordMap.indexOf(normalizedKey);
-      }
-
-      function calculateDistance(fromKey, toKey) {
-        const fromIndex = getKeyIndex(fromKey);
-        const toIndex = getKeyIndex(toKey);
-
-        let distance = toIndex - fromIndex;
-
-        // Normalize to +/- 6 semitones
-        if (distance > 6) {
-          distance = distance - 12;
-        } else if (distance < -6) {
-          distance = distance + 12;
-        }
-
-        return distance;
-      }
-
-      const initialDistance = calculateDistance(originalOriginalKey, originalKey);
-
-      function transposeChord(chord, steps) {
-        // Handle empty chords
-        if (!chord || chord.trim() === "") return chord;
-
-        // Check if it's a minor chord
-        const isMinor = chord.includes("m") && !chord.includes("maj");
-
-        // Extract the root note (handle sharps and flats)
-        let root = chord.match(/^[A-G][#b]?/);
-        if (!root) return chord;
-        root = root[0];
-
-        // Get the suffix (everything after the root)
-        const suffix = chord.substring(root.length);
-
-        // Convert flats to sharps for easier processing
-        root = root.replace("Db", "C#").replace("Eb", "D#").replace("Gb", "F#").replace("Ab", "G#").replace("Bb", "A#");
-
-        // Find the chord in the appropriate map
-        let map = isMinor ? minorChordMap : chordMap;
-        let searchRoot = isMinor ? root + "m" : root;
-        let index = map.indexOf(searchRoot);
-
-        if (index === -1) {
-          // If not found in minor map, try major map
-          if (isMinor) {
-            searchRoot = root;
-            map = chordMap;
-            index = map.indexOf(searchRoot);
-          }
-          if (index === -1) return chord;
-        }
-
-        // Transpose
-        let newIndex = (index + steps) % 12;
-        if (newIndex < 0) newIndex += 12;
-
-        let newChord = map[newIndex];
-
-        // If we found it in major map but it's a minor chord, add 'm' back
-        if (isMinor && !newChord.includes("m")) {
-          newChord = newChord + "m";
-        }
-
-        // Remove the 'm' from the root if it was added during search
-        if (isMinor && suffix.startsWith("m")) {
-          newChord = newChord.replace("m", "");
-        }
-
-        return newChord + suffix;
-      }
-
-      function transposeUp() {
-        currentTranspose = (currentTranspose + 1) % 12;
-        updateChords();
-      }
-
-      function transposeDown() {
-        currentTranspose = (currentTranspose - 1) % 12;
-        updateChords();
-      }
-
-      function updateChords() {
-        const chordElements = document.querySelectorAll(".chords");
-        chordElements.forEach((element) => {
-          const originalChord = element.getAttribute("data-original") || element.textContent;
-          if (!element.getAttribute("data-original")) {
-            element.setAttribute("data-original", originalChord);
-          }
-          element.textContent = transposeChord(originalChord, currentTranspose);
-        });
-
-        // Update the current key display
-        const newKey = transposeChord(originalKey, currentTranspose);
-        const totalDistance = initialDistance + currentTranspose;
-
-        // Normalize to +/- 6 semitones for display
-        let displayDistance = totalDistance;
-        if (displayDistance > 6) {
-          displayDistance = displayDistance - 12;
-        } else if (displayDistance < -6) {
-          displayDistance = displayDistance + 12;
-        }
-
-        const sign = displayDistance > 0 ? "+" : "";
-        const opp_sign = displayDistance === 0 ? "" : displayDistance > 0 ? "-" : "+";
-
-        document.getElementById("currentKey").innerHTML = `${newKey}`;
-        document.getElementById("originalKey").innerHTML = `${originalOriginalKey} (<span id="originalKeyDistance">${opp_sign}${Math.abs(displayDistance)}</span>)`;
-      }
-
-      // Initialize the display on page load
-      updateChords();
-    </script>
   </body>
 </html>
