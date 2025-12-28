@@ -188,8 +188,16 @@ I can't get enough of your love
     </div>
 
     <script>
+      function pauseOtherAudio(currentAudio) {
+        document.querySelectorAll("audio").forEach((audio) => {
+          if (audio !== currentAudio) {
+            audio.pause();
+          }
+        });
+      }
+
       const chordMap = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
-      let currentTranspose = 0;
+      let currentTranspose = -5;
       const originalKey = "F";
       const originalOriginalKey = "F";
       const initialDistance = 0;

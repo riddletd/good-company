@@ -21,37 +21,6 @@
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       }
 
-      /* Print styles for 8.5x11 paper */
-      @media print {
-        body {
-          margin: 0;
-          padding: 0;
-          background-color: white;
-        }
-
-        .song-container {
-          width: 8.5in;
-          margin: 0;
-          padding: 0;
-          box-shadow: none;
-          border-radius: 0;
-        }
-
-        @page {
-          size: 8.5in 11in;
-          margin: 1in 0.75in;
-        }
-
-        .section {
-          page-break-inside: avoid;
-        }
-
-        h1,
-        .artist {
-          page-break-after: avoid;
-        }
-      }
-
       h1 {
         text-align: center;
         color: #2c5f2d;
@@ -64,60 +33,11 @@
         font-style: italic;
       }
 
-      .section {
-        margin-bottom: 25px;
-      }
-
-      .section-title {
-        font-weight: bold;
-        color: #2c5f2d;
-        margin-bottom: 10px;
-        text-transform: uppercase;
-        font-size: 0.9em;
-      }
-
-      .line {
+      .audio {
+        width: 100%;
         display: flex;
-        margin-bottom: 5px;
-        position: relative;
-      }
-
-      .chord-lyric {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .space {
-        margin-left: 10px;
-      }
-
-      .pad-space {
-        padding-left: 10px;
-      }
-
-      .chords {
-        color: #d9534f;
-        font-weight: bold;
-        font-size: 0.95em;
-        letter-spacing: 0.5px;
-        line-height: 1.5;
-        min-height: 1.5em;
-      }
-
-      .lyrics {
-        color: #333;
-        line-height: 1.5;
-        font-size: 1em;
-      }
-
-      .chord {
-        display: inline-block;
-        min-width: 20px;
-      }
-
-      /* Optional: Add some spacing for better readability */
-      .spacer {
-        height: 15px;
+        justify-content: center;
+        margin: 20px 0 30px 0;
       }
 
       table {
@@ -141,54 +61,59 @@
         width: 20px;
       }
 
-      .controls button:hover {
+      td button:hover {
         background-color: #f0f0f0;
       }
 
-      .audio {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 2d0px;
-        margin-bottom: 30px;
+      .pad-space {
+        padding-left: 10px;
       }
 
-      @media print {
-        .audio {
-          display: none;
-        }
+      .section-title {
+        font-weight: bold;
+        color: #2c5f2d;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        font-size: 0.9em;
+      }
 
-        table {
-          margin-top: 30px;
-        }
+      pre {
+        color: #333;
+        line-height: 1.5;
+        font-size: 1em;
+      }
 
-        td button {
-          display: none;
-        }
+      .chords {
+        color: #d9534f;
+        font-weight: bold;
+        font-size: 0.95em;
+        letter-spacing: 0.5px;
+      }
 
-        h1 {
-          margin-top: 0;
-        }
+      .riffs {
+        display: flex;
+        flex-wrap: wrap;
+      }
 
-        .section {
-          page-break-inside: avoid;
-        }
+      .riff {
+        padding: 30px;
+      }
 
-        h1,
-        .artist {
-          page-break-after: avoid;
-        }
+      .riff-section-title {
+        font-weight: bold;
+        color: #2c5f2d;
+        margin-bottom: 10px;
+        font-size: 1.1em;
       }
     </style>
   </head>
   <body>
     <div class="song-container">
-      <h1 data-key="C">Burnin' Sky</h1>
+      <h1>Burnin' Sky</h1>
       <div class="artist">Bad Company</div>
 
       <div class="audio">
-        <audio controls loop preload="metadata">
+        <audio controls loop preload="metadata" onplay="pauseOtherAudio(this)">
           <source src="master.mp3" type="audio/mpeg" />
           Your browser doesn't support audio.
         </audio>
@@ -197,11 +122,11 @@
       <table>
         <tr>
           <td>Original Key:</td>
-          <td id="originalKey" class="pad-space"><span id="originalKeyDisplay">C#</span> (<span id="originalKeyDistance">-2</span>)</td>
+          <td class="pad-space"><span id="originalKeyDisplay">A#</span> (<span id="originalKeyDistance">-2</span>)</td>
         </tr>
         <tr>
           <td>Key:</td>
-          <td id="currentKey" class="pad-space">C (<span id="currentKeyDistance">0</span>)</td>
+          <td class="pad-space"><span id="currentKey">C</span> (<span id="currentKeyDistance">0</span>)</td>
           <td>
             <button onclick="transposeDown()">-</button>
             <button onclick="transposeUp()">+</button>
@@ -209,164 +134,160 @@
         </tr>
         <tr>
           <td>Bpm:</td>
-          <td class="pad-space">~109</td>
+          <td class="pad-space">~95</td>
         </tr>
         <tr>
           <td>Time Sign:</td>
           <td class="pad-space">4/4</td>
         </tr>
       </table>
+      <div>
+        <div class="section-title">RIFFS</div>
+        <hr />
+        <div class="riffs">
+          <div class="riff">
+            <pre><span class="riff-section-title">r1</span>: 1 bar</pre>
+            <pre><span>1</span>  <span>&</span>  <span>e</span>  <span>&</span>  <span>3</span></pre>
+            <pre><span class="chords">F5</span> <span class="chords">G5</span> <span class="chords">G5</span> <span class="chords">F5</span> <span class="chords">G5</span></pre>
 
-      <div class="section">
-        <div class="section-title">Verse 1 (16b) (F4 C4 G8)</div>
+            <audio controls loop onplay="pauseOtherAudio(this)">
+              <source src="r1.wav" type="audio/wav" />
+              Your browser doesn't support audio.
+            </audio>
+          </div>
 
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords"></div>
-            <div class="lyrics">In the be</div>
+          <div class="riff">
+            <pre><span class="riff-section-title">r2</span>: 1 bar</pre>
+            <pre><span>1</span>  <span>&</span>  <span>e</span>  <span>&</span>  <span>3</span></pre>
+            <pre><span class="chords">A#5</span> <span class="chords">C5</span> <span class="chords">C5</span> <span class="chords">A#5</span> <span class="chords">C5</span></pre>
+
+            <audio controls loop onplay="pauseOtherAudio(this)">
+              <source src="r2.wav" type="audio/wav" />
+              Your browser doesn't support audio.
+            </audio>
           </div>
-          <div class="chord-lyric">
-            <div class="chords">F 4</div>
-            <div class="lyrics">ginning</div>
+
+          <div class="riff">
+            <pre><span class="riff-section-title">r3</span>: 1 bar</pre>
+            <pre><span>1</span>  <span>3</span></pre>
+            <pre><span class="chords">D#5</span> <span class="chords">D5</span></pre>
+
+            <audio controls loop onplay="pauseOtherAudio(this)">
+              <source src="r3.wav" type="audio/wav" />
+              Your browser doesn't support audio.
+            </audio>
           </div>
-          <div class="chord-lyric">
-            <div class="space chords">C 4</div>
-            <div class="lyrics"></div>
+
+          <div class="riff">
+            <pre><span class="riff-section-title">r4</span>: 2 bars</pre>
+            <pre><span>2</span>  <span>2</span>  <span>4</span></pre>
+            <pre><span class="chords">C5</span> <span class="chords">A#5</span> <span class="chords">G5</span></pre>
+
+            <audio controls loop onplay="pauseOtherAudio(this)">
+              <source src="r4.wav" type="audio/wav" />
+              Your browser doesn't support audio.
+            </audio>
+          </div>
+
+          <div class="riff">
+            <pre><span class="riff-section-title">r5</span>: 1 bars</pre>
+            <pre><span>0.75</span>  <span>0.75</span>  <span>0.5</span></pre>
+            <pre><span class="chords">C5</span> <span class="chords">A#5</span> <span class="chords">A#5add7</span></pre>
+
+            <audio controls loop onplay="pauseOtherAudio(this)">
+              <source src="r5.wav" type="audio/wav" />
+              Your browser doesn't support audio.
+            </audio>
           </div>
         </div>
+      </div>
 
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords"></div>
-            <div class="lyrics">I believed every w</div>
-          </div>
-          <div class="chord-lyric">
-            <div class="chords">G 8</div>
-            <div class="lyrics">ord that you said</div>
-          </div>
-        </div>
+      <br />
+      <hr />
+      <br />
+      <br />
 
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords">F 4</div>
-            <div class="lyrics"></div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="space chords"></div>
-            <div class="lyrics">Now that you're g</div>
-          </div>
-          <div class="chord-lyric">
-            <div class="chords">C</div>
-            <div class="lyrics">one.</div>
-          </div>
-        </div>
+      <div>
+        <div class="section-title">Intro</div>
+        <pre><span class="riff-section-title">r1</span>x4</pre>
 
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords"></div>
-            <div class="lyrics">My world is in</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">G</div>
-            <div class="lyrics">shreds.</div>
-          </div>
-        </div>
+        <div class="section-title">Chorus</div>
+        <pre>(<span class="riff-section-title">r1</span> <span class="riff-section-title">r2</span> <span class="riff-section-title">r3</span> <span class="riff-section-title">r1</span>)x2</pre>
+        <pre><span>The sky is burnin'</span><br /><span>I believe my soul's on fire</span><br /><span>You are, I'm learning</span><br /><span>The key to my desire</span></pre>
+        <pre><span class="riff-section-title">r1</span></pre>
 
-        <div class="line">
-          <div class="chord-lyric">
-            <div class="chords"></div>
-            <div class="lyrics">Oh, you</div>
-          </div>
-          <div class="space chord-lyric">
-            <div class="chords">F</div>
-            <div class="lyrics">loved me and left me</div>
-          </div>
-        </div>
+        <div class="section-title">Verse</div>
+        <pre><span class="riff-section-title">r4</span>x3 <span class="riff-section-title">r5</span></pre>
+        <pre><span>Waiting for the van to arrive</span><br /><span>The prisoners were lined up outside</span><br /><span>I jumped a wall, hitched a ride</span><br /><span>And now I'm here to say</span><br /><span>I love you, baby, anyway</span></pre>
+        <pre><span class="riff-section-title">r1</span>x2</pre>
+
+        <div class="section-title">Chorus</div>
+        <pre>(<span class="riff-section-title">r1</span> <span class="riff-section-title">r2</span> <span class="riff-section-title">r3</span> <span class="riff-section-title">r1</span>)x2</pre>
+        <pre><span>The sky is burnin'</span><br /><span>I believe my soul's on fire</span><br /><span>You are, I'm learning</span><br /><span>The key to my desire</span></pre>
+        <pre><span class="riff-section-title">r1</span></pre>
+
+        <div class="section-title">Verse</div>
+        <pre><span class="riff-section-title">r4</span>x3 <span class="riff-section-title">r5</span></pre>
+        <pre><span>Ran across the country fields in all the rain</span><br /><span>They had guns and dogs and everything</span><br /><span>Swam a river trying to lose my trail</span><br /><span>But they caught me, under the bridge</span><br /><span>Oh yeah, baby</span></pre>
+        <pre><span class="riff-section-title">r1</span>x2</pre>
+
+        <div class="section-title">Chorus</div>
+        <pre>(<span class="riff-section-title">r1</span> <span class="riff-section-title">r2</span> <span class="riff-section-title">r3</span> <span class="riff-section-title">r1</span>)x2</pre>
+        <pre><span>The sky is burnin'</span><br /><span>I believe my soul's on fire</span><br /><span>You are, I am learning</span><br /><span>The key to my desire</span></pre>
+        <pre><span class="riff-section-title">r1</span></pre>
+
+        <div class="section-title">Guitar Solo</div>
+        <pre><span class="riff-section-title">r4</span>x3 <span class="riff-section-title">r5</span></pre>
+        <pre><span class="riff-section-title">r1</span>x4</pre>
+
+        <div class="section-title">Chorus</div>
+        <pre>(<span class="riff-section-title">r1</span> <span class="riff-section-title">r2</span> <span class="riff-section-title">r3</span> <span class="riff-section-title">r1</span>)x2</pre>
+        <pre><span>The sky is burnin'</span><br /><span>I believe my soul's on fire</span><br /><span>You are, I am learning</span><br /><span>The key to all my desires</span></pre>
+        <pre><span class="riff-section-title">r1</span></pre>
+
+        <div class="section-title">Verse</div>
+        <pre><span class="riff-section-title">r4</span>x3 <span class="riff-section-title">r5</span></pre>
+        <pre><span>The judge said, 'This man's a danger to humanity</span><br /><span>We're gonna lock him up and throw away the key'</span><br /><span>Now, baby your love has sent me to jail</span><br /><span>But I'd rather die than see you with another man</span></pre>
+        <pre><span class="riff-section-title">r1</span>x2</pre>
+
+        <div class="section-title">Outro</div>
+        <pre><span class="riff-section-title">r1</span>x40</pre>
       </div>
     </div>
 
     <script>
+      function pauseOtherAudio(currentAudio) {
+        document.querySelectorAll("audio").forEach((audio) => {
+          if (audio !== currentAudio) {
+            audio.pause();
+          }
+        });
+      }
+
       const chordMap = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
-      const minorChordMap = ["Cm", "C#m", "Dm", "D#m", "Em", "Fm", "F#m", "Gm", "G#m", "Am", "A#m", "Bm"];
-
-      let currentTranspose = 0;
-      const originalKey = "C";
-      const originalOriginalKey = document.getElementById("originalKeyDisplay").textContent; // The actual original key before any transposition
-
-      // Calculate the initial distance from the original-original key
-      function getKeyIndex(key) {
-        const normalizedKey = key.replace("Db", "C#").replace("Eb", "D#").replace("Gb", "F#").replace("Ab", "G#").replace("Bb", "A#");
-        return chordMap.indexOf(normalizedKey);
-      }
-
-      function calculateDistance(fromKey, toKey) {
-        const fromIndex = getKeyIndex(fromKey);
-        const toIndex = getKeyIndex(toKey);
-
-        let distance = toIndex - fromIndex;
-
-        // Normalize to +/- 6 semitones
-        if (distance > 6) {
-          distance = distance - 12;
-        } else if (distance < -6) {
-          distance = distance + 12;
-        }
-
-        return distance;
-      }
-
-      const initialDistance = calculateDistance(originalOriginalKey, originalKey);
+      let currentTranspose = +2;
+      const originalKey = "A#";
+      const originalOriginalKey = "A#";
+      const initialDistance = 0;
 
       function transposeChord(chord, steps) {
-        // Handle empty chords
         if (!chord || chord.trim() === "") return chord;
 
-        // Check if it's a minor chord
         const isMinor = chord.includes("m") && !chord.includes("maj");
-
-        // Extract the root note (handle sharps and flats)
         let root = chord.match(/^[A-G][#b]?/);
         if (!root) return chord;
         root = root[0];
 
-        // Get the suffix (everything after the root)
         const suffix = chord.substring(root.length);
-
-        // Convert flats to sharps for easier processing
         root = root.replace("Db", "C#").replace("Eb", "D#").replace("Gb", "F#").replace("Ab", "G#").replace("Bb", "A#");
 
-        // Find the chord in the appropriate map
-        let map = isMinor ? minorChordMap : chordMap;
-        let searchRoot = isMinor ? root + "m" : root;
-        let index = map.indexOf(searchRoot);
+        let index = chordMap.indexOf(root);
+        if (index === -1) return chord;
 
-        if (index === -1) {
-          // If not found in minor map, try major map
-          if (isMinor) {
-            searchRoot = root;
-            map = chordMap;
-            index = map.indexOf(searchRoot);
-          }
-          if (index === -1) return chord;
-        }
-
-        // Transpose
         let newIndex = (index + steps) % 12;
         if (newIndex < 0) newIndex += 12;
 
-        let newChord = map[newIndex];
-
-        // If we found it in major map but it's a minor chord, add 'm' back
-        if (isMinor && !newChord.includes("m")) {
-          newChord = newChord + "m";
-        }
-
-        // Remove the 'm' from the root if it was added during search
-        if (isMinor && suffix.startsWith("m")) {
-          newChord = newChord.replace("m", "");
-        }
-
-        return newChord + suffix;
+        return chordMap[newIndex] + suffix;
       }
 
       function transposeUp() {
@@ -380,8 +301,7 @@
       }
 
       function updateChords() {
-        const chordElements = document.querySelectorAll(".chords");
-        chordElements.forEach((element) => {
+        document.querySelectorAll(".chords").forEach((element) => {
           const originalChord = element.getAttribute("data-original") || element.textContent;
           if (!element.getAttribute("data-original")) {
             element.setAttribute("data-original", originalChord);
@@ -389,26 +309,21 @@
           element.textContent = transposeChord(originalChord, currentTranspose);
         });
 
-        // Update the current key display
         const newKey = transposeChord(originalKey, currentTranspose);
         const totalDistance = initialDistance + currentTranspose;
 
-        // Normalize to +/- 6 semitones for display
         let displayDistance = totalDistance;
-        if (displayDistance > 6) {
-          displayDistance = displayDistance - 12;
-        } else if (displayDistance < -6) {
-          displayDistance = displayDistance + 12;
-        }
+        if (displayDistance > 6) displayDistance -= 12;
+        else if (displayDistance < -6) displayDistance += 12;
 
         const sign = displayDistance > 0 ? "+" : "";
-        const opp_sign = displayDistance === 0 ? "" : displayDistance > 0 ? "-" : "+";
+        const oppSign = displayDistance === 0 ? "" : displayDistance > 0 ? "-" : "+";
 
-        document.getElementById("currentKey").innerHTML = `${newKey}`;
-        document.getElementById("originalKey").innerHTML = `${originalOriginalKey} (<span id="originalKeyDistance">${opp_sign}${Math.abs(displayDistance)}</span>)`;
+        document.getElementById("currentKey").textContent = newKey;
+        document.getElementById("currentKeyDistance").textContent = sign + displayDistance;
+        document.getElementById("originalKeyDistance").textContent = oppSign + Math.abs(displayDistance);
       }
 
-      // Initialize the display on page load
       updateChords();
     </script>
   </body>
