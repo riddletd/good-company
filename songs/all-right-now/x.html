@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chords & Lyrics</title>
+    <style>
+      body {
+        font-family: "Courier New", monospace;
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #f5f5dc;
+        color: #333;
+      }
+
+      .song-container {
+        background-color: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        color: #2c5f2d;
+        margin-bottom: 10px;
+      }
+
+      .artist {
+        text-align: center;
+        color: #666;
+        font-style: italic;
+      }
+
+      .audio {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 20px 0 30px 0;
+      }
+
+      table {
+        margin-bottom: 50px;
+        font-size: 0.9em;
+        color: #666;
+      }
+
+      td {
+        min-width: 75px;
+      }
+
+      td button {
+        color: #333;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 0.85em;
+        height: 20px;
+        width: 20px;
+      }
+
+      td button:hover {
+        background-color: #f0f0f0;
+      }
+
+      .pad-space {
+        padding-left: 10px;
+      }
+
+      .section-title {
+        font-weight: bold;
+        color: #2c5f2d;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        font-size: 0.9em;
+      }
+
+      pre {
+        color: #333;
+        line-height: 1.5;
+        font-size: 1em;
+      }
+
+      .chords {
+        color: #d9534f;
+        font-weight: bold;
+        font-size: 0.95em;
+        letter-spacing: 0.5px;
+      }
+
+      .riffs {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .riff {
+        padding: 30px;
+      }
+
+      .riff-section-title {
+        font-weight: bold;
+        color: #2c5f2d;
+        margin-bottom: 10px;
+        font-size: 1.1em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="song-container">
+      <h1>All Right Now</h1>
+      <div class="artist">Bad Company</div>
+
+      <div class="audio">
+        <audio controls loop preload="metadata" onplay="pauseOtherAudio(this)">
+          <source src="master.mp3" type="audio/mpeg" />
+          Your browser doesn't support audio.
+        </audio>
+      </div>
+      <a target="_blank" href="https://tabs.ultimate-guitar.com/tab/free/all-right-now-chords-1859490">Chord Chart</a>
+    </div>
+
+    <script>
+      function pauseOtherAudio(currentAudio) {
+        document.querySelectorAll("audio").forEach((audio) => {
+          if (audio !== currentAudio) {
+            audio.pause();
+          }
+        });
+      }
+
+      const chordMap = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+      let currentTranspose = -3;
+      const originalKey = "D#";
+      const originalOriginalKey = "D#";
+      const initialDistance = 0;
+
+      function transposeChord(chord, steps) {
+        if (!chord || chord.trim() === "") return chord;
+
+        const isMinor = chord.includes("m") && !chord.includes("maj");
+        let root = chord.match(/^[A-G][#b]?/);
+        if (!root) return chord;
+        root = root[0];
+
+        const suffix = chord.substring(root.length);
+        root = root.replace("Db", "C#").replace("Eb", "D#").replace("Gb", "F#").replace("Ab", "G#").replace("Bb", "A#");
+
+        let index = chordMap.indexOf(root);
+        if (index === -1) return chord;
+
+        let newIndex = (index + steps) % 12;
+        if (newIndex < 0) newIndex += 12;
+
+        return chordMap[newIndex] + suffix;
+      }
+
+      function transposeUp() {
+        currentTranspose = (currentTranspose + 1) % 12;
+        updateChords();
+      }
+
+      function transposeDown() {
+        currentTranspose = (currentTranspose - 1) % 12;
+        updateChords();
+      }
+
+      function updateChords() {
+        document.querySelectorAll(".chords").forEach((element) => {
+          const originalChord = element.getAttribute("data-original") || element.textContent;
+          if (!element.getAttribute("data-original")) {
+            element.setAttribute("data-original", originalChord);
+          }
+          element.textContent = transposeChord(originalChord, currentTranspose);
+        });
+
+        const newKey = transposeChord(originalKey, currentTranspose);
+        const totalDistance = initialDistance + currentTranspose;
+
+        let displayDistance = totalDistance;
+        if (displayDistance > 6) displayDistance -= 12;
+        else if (displayDistance < -6) displayDistance += 12;
+
+        const sign = displayDistance > 0 ? "+" : "";
+        const oppSign = displayDistance === 0 ? "" : displayDistance > 0 ? "-" : "+";
+
+        document.getElementById("currentKey").textContent = newKey;
+        document.getElementById("currentKeyDistance").textContent = sign + displayDistance;
+        document.getElementById("originalKeyDistance").textContent = oppSign + Math.abs(displayDistance);
+      }
+
+      updateChords();
+    </script>
+  </body>
+</html>
